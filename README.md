@@ -113,6 +113,31 @@ pip install tox
 tox
 ```
 
+## Reference use-cases
+
+distro is used by projects like:
+* https://github.com/pypa/pipenv
+* https://github.com/pypa/pip
+* https://github.com/certbot/certbot
+* https://github.com/google/grr
+* https://github.com/fastai/fastai
+* https://github.com/home-assistant/core
+* https://github.com/DataDog/dd-agent
+* https://github.com/conan-io/conan
+* https://github.com/qt/qt5
+* https://github.com/DataDog/datadog-agent
+* https://github.com/DataDog/dd-agent
+* https://github.com/ankitects/anki
+* https://github.com/MobSF/Mobile-Security-Framework-MobSF
+* https://github.com/servo/servo
+* https://github.com/Azure/azure-devops-cli-extension
+* https://github.com/IntelAI/nauta
+* https://github.com/iterative/dvc
+* https://github.com/golemfactory/golem
+* https://github.com/apache/trafficcontrol
+
+These can be checked out for reference implementations for specific use-cases.
+
 
 ## Contributions
 
@@ -138,3 +163,4 @@ formats can be found here:
 * https://packages.gentoo.org/packages/dev-python/distro
 * https://pkgs.org/download/python2-distro
 * https://slackbuilds.org/repository/14.2/python/python-distro/
+
