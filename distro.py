@@ -216,6 +216,7 @@ def id() -> str:
     "netbsd"        NetBSD
     "freebsd"       FreeBSD
     "midnightbsd"   MidnightBSD
+    "aix"           AIX
     ==============  =========================================
 
     If you have a need to get distros for reliable IDs added into this set,
@@ -745,7 +746,8 @@ class LinuxDistribution:
             "_os_release_info={self._os_release_info!r}, "
             "_lsb_release_info={self._lsb_release_info!r}, "
             "_distro_release_info={self._distro_release_info!r}, "
-            "_uname_info={self._uname_info!r})".format(self=self)
+            "_uname_info={self._uname_info!r}, "
+            "_oslevel_info={self._oslevel_info!r})".format(self=self)
         )
 
     def linux_distribution(
@@ -833,6 +835,9 @@ class LinuxDistribution:
             ).get("version_id", ""),
             self.uname_attr("release"),
         ]
+        if sys.platform.startswith("aix"):
+            # On AIX platforms, prefer oslevel command output.
+            versions.insert(0, self._oslevel_info())
         version = ""
         if best:
             # This algorithm uses the last version in priority order that has
@@ -1131,6 +1136,14 @@ class LinuxDistribution:
             return {}
         content = self._to_str(stdout).splitlines()
         return self._parse_uname_content(content)
+
+    @cached_property
+    def _oslevel_info(self) -> str:
+        try:
+            stdout = subprocess.check_output("oslevel", stderr=subprocess.DEVNULL)
+        except (OSError, subprocess.CalledProcessError):
+            return ""
+        return self._to_str(stdout)
 
     @staticmethod
     def _parse_uname_content(lines: Sequence[str]) -> Dict[str, str]:

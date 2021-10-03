@@ -19,6 +19,8 @@ import os
 import subprocess
 import sys
 
+from unittest.mock import patch
+
 import pytest
 
 BASE = os.path.abspath(os.path.dirname(__file__))
@@ -1099,6 +1101,24 @@ class TestOverall(DistroTestCase):
         # Does not have one; The empty /etc/arch-release file is not
         # considered a valid distro release file:
         self._test_non_existing_release_file()
+
+    @patch(
+        "distro.sys.platform",
+        return_value="aix7"
+    )
+    def test_aix72_uname(self, _):
+        desired_outcome = {
+            "id": "aix",
+            "name": "AIX",
+            "pretty_name": "AIX 7.2.0.0",
+            "version": "7.2.0.0",
+            "pretty_version": "7.2.0.0",
+            "best_version": "7.2.0.0",
+            "major_version": "7",
+            "minor_version": "2",
+            "build_number": "0",
+        }
+        self._test_outcome(desired_outcome)
 
     def test_centos5_release(self):
         desired_outcome = {
